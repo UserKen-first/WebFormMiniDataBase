@@ -17,6 +17,7 @@
             <asp:Button ID="btnLogin" runat="server" Text="Login" OnClick="btnLogin_Click" />
                 <br />
             <asp:Literal ID="ltlMsg" runat="server"></asp:Literal>
+            <asp:Button ID="Button1" runat="server" Text="BtnTry" />
         </asp:PlaceHolder>
     </form>
 </body>
