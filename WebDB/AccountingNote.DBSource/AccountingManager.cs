@@ -150,37 +150,29 @@ namespace AccountingNote.DBSource
                     WHERE
                         ID = @id  ";
 
-            // connect db & execute
-            using (SqlConnection conn = new SqlConnection(connStr))
+            List<SqlParameter> paramList = new List<SqlParameter>();
+            paramList.Add(new SqlParameter("@userID", userID));
+            paramList.Add(new SqlParameter("@caption", caption));
+            paramList.Add(new SqlParameter("@amount", amount));
+            paramList.Add(new SqlParameter("@actType", actType));
+            paramList.Add(new SqlParameter("@createDate", DateTime.Now));
+            paramList.Add(new SqlParameter("@body", body));
+            paramList.Add(new SqlParameter("@id", ID));
+            try
             {
-                using (SqlCommand comm = new SqlCommand(dbCommand, conn))
-                {
-                    comm.Parameters.AddWithValue("@userID", userID);
-                    comm.Parameters.AddWithValue("@caption", caption);
-                    comm.Parameters.AddWithValue("@amount", amount);
-                    comm.Parameters.AddWithValue("@actType", actType);
-                    comm.Parameters.AddWithValue("@createDate", DateTime.Now);
-                    comm.Parameters.AddWithValue("@body", body);
-                    comm.Parameters.AddWithValue("@id", ID);
-                    try
-                    {
-                        conn.Open();
-                        int effectRows = comm.ExecuteNonQuery();
+                int effectRows = DBHelper.ModifyData(connStr, dbCommand, paramList);
 
-                        if (effectRows == 1)
-                            return true;
-                        else
-                            return false;
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.WriteLog(ex); //利用logger存ex而不要用console
-                        return false;
-                    }
-                }
+                if (effectRows == 1)
+                    return true;
+                else
+                    return false;
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLog(ex); //利用logger存ex而不要用console
+                return false;
             }
         }
-
         public static void DeleteAccout(int ID)
         {
             string connectionString = DBHelper.GetConnectionString();
@@ -203,6 +195,6 @@ namespace AccountingNote.DBSource
             }
         }
 
-        
+
     }
 }
