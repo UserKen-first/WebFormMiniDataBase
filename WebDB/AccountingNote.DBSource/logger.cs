@@ -22,7 +22,7 @@ namespace AccountingNote.DBSource
 
             if (!System.IO.File.Exists(logPath))
                 System.IO.File.Create(logPath);
-            
+
             System.IO.File.AppendAllText(logPath, msg);
 
             throw ex;
