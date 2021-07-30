@@ -181,7 +181,7 @@ namespace AccountingNote.DBSource
             }
         }
 
-        public static void DeleteAccout(int id)
+        public static void DeleteAccout(int ID)
         {
             string connectionString = DBHelper.GetConnectionString();
             string dbCommandString =
@@ -190,23 +190,19 @@ namespace AccountingNote.DBSource
 	                WHERE
 	                    ID = @id
                 ";
-            using (SqlConnection conn = new SqlConnection(connectionString))
-            {
-                using (SqlCommand comm = new SqlCommand(dbCommandString, conn))
-                {
-                    comm.Parameters.AddWithValue("@id", id);
+            List<SqlParameter> paramList = new List<SqlParameter>();  //參數往外挪
+            paramList.Add(new SqlParameter("@id", ID)); //comm.Parameters.AddWithValue("@id", id);
 
-                    try
-                    {
-                        conn.Open();
-                        comm.ExecuteNonQuery();
-                    }
-                    catch (Exception ex)
-                    {
-                        logger.WriteLog(ex); //利用logger存ex而不要用console
-                    }
-                }
+            try
+            {
+                DBHelper.ModifyData(connectionString, dbCommandString, paramList);
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLog(ex);
             }
         }
+
+        
     }
 }

@@ -59,6 +59,21 @@ namespace AccountingNote.DBSource
             }
         }
 
+        public static int ModifyData(string connectionString, string dbCommandString, List<SqlParameter> paramList)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using (SqlCommand comm = new SqlCommand(dbCommandString, conn))
+                {
+                    // 參數需要傳遞進去，不能寫死，往外挪
+                    
+                    comm.Parameters.AddRange(paramList.ToArray());
+                    conn.Open();
+                    int effectRowCount = comm.ExecuteNonQuery();
+                    return effectRowCount;
+                }
+            }
+        }
     }
 }
 
