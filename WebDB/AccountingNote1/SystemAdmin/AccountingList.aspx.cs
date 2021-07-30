@@ -22,16 +22,20 @@ namespace AccountingNote.SystemAdmin
                 Response.Redirect("/Login.aspx");
                 return;
             }
-            string account = this.Session["UserLoginInfo"] as string;
-            var dr = UserInfoManager.GetUserInfoByAccount(account);
 
-            if(dr == null)
+            var currentUser = AuthManager.GetCurrentUser();
+            //string account = this.Session["UserLoginInfo"] as string;
+            //var dr = UserInfoManager.GetUserInfoByAccount(account);
+
+            if(currentUser == null)
+            // 帳號不存在，導至登入頁
             {
+                this.Session["UserLoginInfo"] = null;
                 Response.Redirect("/Login.aspx");
                 return;
             }
-            
-            var dt = AccountingManager.GetAccountingList(dr["ID"].ToString());
+            // Read Accounting data
+            var dt = AccountingManager.GetAccountingList(currentUser.ID);
             
             if(dt.Rows.Count > 0)    // check is empty data
             {

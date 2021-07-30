@@ -14,16 +14,17 @@ namespace AccountingNote.SystemAdmin
         protected void Page_Load(object sender, EventArgs e)
         {
             //if (this.Session["UserLoginInfo"] == null)
-            if(AuthManager.IsLogined())
+            if(!AuthManager.IsLogined())
             {
                 Response.Redirect("/Login.aspx");
                 return;
             }
             string account = this.Session["UserLoginInfo"] as string;
-            var druserInfor = UserInfoManager.GetUserInfoByAccount(account);
+            var currentUser = AuthManager.GetCurrentUser();
 
-            if (druserInfor == null)
+            if (currentUser == null)
             {
+                this.Session["UserLoginInfo"] = null;
                 Response.Redirect("/Login.aspx");
                 return;
             }
@@ -42,7 +43,7 @@ namespace AccountingNote.SystemAdmin
                     int id;
                     if (int.TryParse(idText, out id))  //確認能否轉型成數字
                     {
-                        var drAccounting = AccountingManager.GetAccounting(id, druserInfor["ID"].ToString());  //再轉型成內容
+                        var drAccounting = AccountingManager.GetAccounting(id, currentUser.ID);  //再轉型成內容
                         
                         if (drAccounting == null) //點了超連結進來
                         {
@@ -77,17 +78,20 @@ namespace AccountingNote.SystemAdmin
                 return; //停掉程式
             }
             //取值
-            string account = this.Session["UserLoginInfo"] as string;
-            var dr = UserInfoManager.GetUserInfoByAccount(account);
 
-            if (dr == null)
+            UserInfoModel currentUser = AuthManager.GetCurrentUser();
+
+            //string account = this.Session["UserLoginInfo"] as string;
+            //var dr = UserInfoManager.GetUserInfoByAccount(account);
+
+            if (currentUser == null)
             {
                 Response.Redirect("/Login.aspx");
                 return;
             }
 
             //通過即一個一個取得輸入值
-            string userID = dr["ID"].ToString();
+            string userID = currentUser.ID;
             string actTypeText = this.ddlActType.SelectedValue; //需要注意轉型
             string amountText = this.TxtAmount.Text;    //需要注意轉型
             string caption = this.TxtCap.Text;
@@ -97,7 +101,6 @@ namespace AccountingNote.SystemAdmin
             int actType = Convert.ToInt32(actTypeText);
 
             string idText = this.Request.QueryString["ID"];  //由網址頁取得ID
-
 
             if (string.IsNullOrWhiteSpace(idText))
             {

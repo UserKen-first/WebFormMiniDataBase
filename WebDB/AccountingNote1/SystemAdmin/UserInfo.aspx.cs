@@ -17,28 +17,31 @@ namespace AccountingNote.SystemAdmin
             if (!this.IsPostBack)      //可能是按鈕跳回本頁，所以要判斷 postback
             {
                 //if (this.Session["UserLoginInfo"] == null)   //如果尚未登入，導至豋入頁
-                if (AuthManager.IsLogined())
+                if (!AuthManager.IsLogined())
                 {
                     Response.Redirect("/Login.aspx");  //   / ==> 意思為從route開始算
                     return;
                 }
-                string account = this.Session["UserLoginInfo"] as string;
-                DataRow dr = UserInfoManager.GetUserInfoByAccount(account);
+                //string account = this.Session["UserLoginInfo"] as string;
+                //DataRow dr = UserInfoManager.GetUserInfoByAccount(account);
 
-                if (dr == null)      //如果帳號不存在，導至登入頁
+                var currentuser = AuthManager.GetCurrentUser();
+
+                if (currentuser == null)      //如果帳號不存在，導至登入頁
                 {
                     this.Session["UserLoginInfo"] = null;   //有可能帳號已被砍掉，要把session清掉
                     Response.Redirect("/Login.aspx");
                     return;
                 }
-                this.ItAccount.Text = dr["Account"].ToString();
-                this.ItName.Text = dr["Name"].ToString();
-                this.ItEmail.Text = dr["Email"].ToString();
+                this.ItAccount.Text = currentuser.Account;
+                this.ItName.Text = currentuser.Name;
+                this.ItEmail.Text = currentuser.Email;
             }
         }
         protected void btnLogout_Click(object sender, EventArgs e)
         {
-            this.Session["UserLoginInfo"] = null;      //清除登入資訊，導至豋入頁
+            AuthManager.Logout();    //登出，並導至登入頁
+            //this.Session["UserLoginInfo"] = null;      //清除登入資訊，導至豋入頁
             Response.Redirect("/Login.aspx");
         }
     }
