@@ -57,33 +57,39 @@ namespace AccountingNote.SystemAdmin
         protected void gvAccountingList_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             var row = e.Row;
-            
-            if(row.RowType == DataControlRowType.DataRow)
+
+            if (row.RowType == DataControlRowType.DataRow)
             {
-                Literal ltl = row.FindControl("ItActType") as Literal;
-                //Label lbl = row.FindControl("ItActType") as Label;
+                //Literal ltl = row.FindControl("ItActType") as Literal;
+                Label lbl = row.FindControl("lbltype") as Label;
                 //ltl.Text = "OK";
 
                 var dr = row.DataItem as DataRowView;
-                int actType = dr.Row.Field<int>("ActType");
+                int actType = dr.Row.Field<int>("ActType"); //確定裡面裝的是整數，可使用此方法轉型
 
                 if (actType == 0)
                 {
-                    ltl.Text = "支出";
-                    //lbl.Text = "支出";
+                    //ltl.Text = "支出";
+                    lbl.Text = "支出";
                 }
                 else
                 {
-                    ltl.Text = "收入";
-                    //lbl.Text = "收入";
+                    //ltl.Text = "收入";
+                    lbl.Text = "收入";
                 }
-                    
-                if(dr.Row.Field<int>("Amount") > 1500)
-                {
-                    //lbl.ForeColor = Color.Red;
-                }
-            }   
-        }
 
+                if (dr.Row.Field<int>("Amount") > 1500)
+                {
+                    if (dr.Row.Field<int>("Amount") < 500000)
+                    {
+                        lbl.ForeColor = Color.Red;
+                    }
+                    else
+                    {
+                        lbl.ForeColor = Color.Blue;
+                    }
+                }
+            }
+        }
     }
 }

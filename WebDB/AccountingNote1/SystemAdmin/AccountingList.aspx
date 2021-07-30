@@ -32,8 +32,8 @@
                             
                             <asp:TemplateField HeaderText="支出/收入">
                                 <ItemTemplate>
-                                    <%# ((int)Eval("ActType") == 0) ? "支出"  : "收入"%>
-                                    <%--<asp:Label ID="lblshow" runat="server" ></asp:Label>--%>
+                                    <%--<%# ((int)Eval("ActType") == 0) ? "支出"  : "收入"%>--%>
+                                    <asp:Label ID="lbltype" runat="server" ></asp:Label>
                                     <asp:Literal runat="server" ID="ItActType"></asp:Literal>
                                 </ItemTemplate>
                             </asp:TemplateField>
