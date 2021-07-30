@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31410.357
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountingNote.DBSource", "AccountingNote.DBSource\AccountingNote.DBSource.csproj", "{C9DD785A-7792-4BD3-AEF6-070C8B7EBD05}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccountingNote", "AccountingNote1\AccountingNote.csproj", "{E5B1F67E-AAD7-400D-91A4-A584D8724CDC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C9DD785A-7792-4BD3-AEF6-070C8B7EBD05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9DD785A-7792-4BD3-AEF6-070C8B7EBD05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9DD785A-7792-4BD3-AEF6-070C8B7EBD05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9DD785A-7792-4BD3-AEF6-070C8B7EBD05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5B1F67E-AAD7-400D-91A4-A584D8724CDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5B1F67E-AAD7-400D-91A4-A584D8724CDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5B1F67E-AAD7-400D-91A4-A584D8724CDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5B1F67E-AAD7-400D-91A4-A584D8724CDC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {00739B46-E65E-4D1F-A8A9-B8A2ADDC2892}
+	EndGlobalSection
+EndGlobal
