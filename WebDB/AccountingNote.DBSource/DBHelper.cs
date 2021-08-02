@@ -61,6 +61,7 @@ namespace AccountingNote.DBSource
 
         public static int ModifyData(string connectionString, string dbCommandString, List<SqlParameter> paramList)
         {
+            // 主要功能連線，
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 using (SqlCommand comm = new SqlCommand(dbCommandString, conn))

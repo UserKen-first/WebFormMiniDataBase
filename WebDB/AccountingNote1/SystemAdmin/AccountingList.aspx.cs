@@ -39,17 +39,92 @@ namespace AccountingNote.SystemAdmin
             
             if(dt.Rows.Count > 0)    // check is empty data
             {
-                this.gvAccountingList.DataSource = dt;
+                int totalPages = this.GetTotalpage(dt); //讀取現在的總頁數
+                var dtPaged = this.GetPagedDataTable(dt);
+
+                this.gvAccountingList.DataSource = dtPaged;  //資料繫結
                 this.gvAccountingList.DataBind();
+
+                var pages = (dt.Rows.Count / 10);   //分頁數量: 筆數/10
+                if (dt.Rows.Count % 10 > 0)
+                    pages += 1;
+
+
+                this.ltPage.Text = $"{dt.Rows.Count}筆，共{pages}頁，目前在第{this.GetCurrentPage()}頁";
+                
+                for(var i = 1; i <= totalPages; i++)   //分頁超連結
+                {
+                    this.ltPage.Text += $"<a href='AccountingList.aspx?page={i}'>{i}</av>&nbsp";
+                }
             }
             else
             {
                 this.gvAccountingList.Visible = false;
                 this.PlcNoData.Visible = true;
             }
-            this.gvAccountingList.DataSource = dt;
-            this.gvAccountingList.DataBind();
+            //this.gvAccountingList.DataSource = dt;   //如沒註解，會顯示10筆以上的資料，因其跳過dt審核條件，導致資料全部顯示
+            //this.gvAccountingList.DataBind(); 
         }
+        
+        private int GetTotalpage(DataTable dt)
+        {
+            int pagers = dt.Rows.Count / 10;
+
+            if ((dt.Rows.Count % 10) > 0)
+                pagers += 1;
+
+            return pagers;
+
+            // 1  --> 0
+            // 9  --> 0
+            // 10 --> 1
+            // 15 --> 1
+        }
+        private int GetCurrentPage()
+        {
+            string pageText = Request.QueryString["Page"];
+                             // 取得目前是第幾頁
+            if (string.IsNullOrWhiteSpace(pageText))
+                return 1;    //空字串回傳1
+
+            int intpage;
+            if (!int.TryParse(pageText, out intpage))
+                return 1;    //數字轉換失敗
+
+            if (intpage <= 0) 
+                return 1;
+            
+            return intpage;
+        }
+        
+        private DataTable GetPagedDataTable(DataTable dt)
+        {
+            DataTable dtPaged = dt.Clone();  //為不複製資料，複製欄位
+            //dt.Copy();                    //如果資料為0筆，會出錯
+
+            // 複製現有的資料並回傳
+            //foreach(DataRow dr in dt.Rows)
+
+            int startIndex = (this.GetCurrentPage() - 1) * 10;
+            int endIndex = this.GetCurrentPage() * 10;
+
+            if (endIndex > dt.Rows.Count)   //預防索引值超過範圍
+                endIndex = dt.Rows.Count;
+
+            for(var i = startIndex; i < endIndex; i++)      //只拿出前10筆的資料
+            {
+                DataRow dr = dt.Rows[i];
+                var drNew = dtPaged.NewRow();
+                
+                foreach (DataColumn dc in dt.Columns)
+                {
+                    drNew[dc.ColumnName] = dr[dc];
+                }
+                dtPaged.Rows.Add(drNew);
+            }
+            return dtPaged;
+        }
+
         protected void btnAddAcc_Click1(object sender, EventArgs e)
         {
             Response.Redirect("/SystemAdmin/AccountingDetail.aspx");

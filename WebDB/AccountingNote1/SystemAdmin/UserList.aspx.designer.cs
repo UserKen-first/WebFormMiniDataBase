@@ -7,56 +7,38 @@
 // </自動產生的>
 //------------------------------------------------------------------------------
 
-namespace AccountingNote.SystemAdmin
+namespace AccountingNote1.SystemAdmin
 {
 
 
-    public partial class AccountingList
+    public partial class Userlist
     {
 
         /// <summary>
-        /// form1 控制項。
+        /// Button1 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.WebControls.Button Button1;
 
         /// <summary>
-        /// btnAddAcc 控制項。
+        /// GridView1 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAddAcc;
+        protected global::System.Web.UI.WebControls.GridView GridView1;
 
         /// <summary>
-        /// gvAccountingList 控制項。
+        /// ucPager 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvAccountingList;
-
-        /// <summary>
-        /// ltPage 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal ltPage;
-
-        /// <summary>
-        /// PlcNoData 控制項。
-        /// </summary>
-        /// <remarks>
-        /// 自動產生的欄位。
-        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.PlaceHolder PlcNoData;
+        protected global::AccountingNote1.SystemAdmin.UserControl.ucPager ucPager;
     }
 }
