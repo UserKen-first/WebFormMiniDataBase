@@ -53,6 +53,7 @@ namespace AccountingNote1.Handlers
                     CreatDate = drAccounting.Field<DateTime>("CreateDate").ToString("yyyy-MM-dd")
                 };
 
+
                 list.Add(model);
         }
         // 序列化list這個容器即可
