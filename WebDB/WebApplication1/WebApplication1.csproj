@@ -7,12 +7,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{E5B1F67E-AAD7-400D-91A4-A584D8724CDC}</ProjectGuid>
+    <ProjectGuid>{FFA19E04-B465-45BC-8713-F81DEBC831AB}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>AccountingNote1</RootNamespace>
-    <AssemblyName>AccountingNote1</AssemblyName>
+    <RootNamespace>WebApplication1</RootNamespace>
+    <AssemblyName>WebApplication1</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -47,6 +47,7 @@
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -70,86 +71,73 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Default.aspx" />
+    <Content Include="default.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="Login.aspx" />
-    <Content Include="SystemAdmin\AccountingDetail.aspx" />
-    <Content Include="SystemAdmin\AccountingList.aspx" />
-    <Content Include="SystemAdmin\UserControl\ucPager.ascx" />
-    <Content Include="SystemAdmin\UserControl\ucPager2.ascx" />
-    <Content Include="SystemAdmin\UserInfo.aspx" />
+    <Content Include="Scripts\jquery-3.6.0.min.js" />
+    <Content Include="Scripts\WebForm1.js" />
+    <Content Include="TryJQuery.aspx" />
+    <Content Include="TryJQuery2.aspx" />
+    <Content Include="WeatherData.aspx" />
     <Content Include="Web.config" />
+    <Content Include="WebForm1.aspx" />
+    <Content Include="WebForm2.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Default.aspx.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
+    <Compile Include="default.aspx.cs">
+      <DependentUpon>default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Default.aspx.designer.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
+    <Compile Include="default.aspx.designer.cs">
+      <DependentUpon>default.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Handlers\AccountingNoteList.ashx.cs">
-      <DependentUpon>AccountingNoteList.ashx</DependentUpon>
-    </Compile>
-    <Compile Include="Login.aspx.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Login.aspx.designer.cs">
-      <DependentUpon>Login.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Models\AccountnigNoteViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SystemAdmin\AccountingDetail.aspx.cs">
-      <DependentUpon>AccountingDetail.aspx</DependentUpon>
+    <Compile Include="TryJQuery.aspx.cs">
+      <DependentUpon>TryJQuery.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="SystemAdmin\AccountingDetail.aspx.designer.cs">
-      <DependentUpon>AccountingDetail.aspx</DependentUpon>
+    <Compile Include="TryJQuery.aspx.designer.cs">
+      <DependentUpon>TryJQuery.aspx</DependentUpon>
     </Compile>
-    <Compile Include="SystemAdmin\AccountingList.aspx.cs">
-      <DependentUpon>AccountingList.aspx</DependentUpon>
+    <Compile Include="TryJQuery2.aspx.cs">
+      <DependentUpon>TryJQuery2.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="SystemAdmin\AccountingList.aspx.designer.cs">
-      <DependentUpon>AccountingList.aspx</DependentUpon>
+    <Compile Include="TryJQuery2.aspx.designer.cs">
+      <DependentUpon>TryJQuery2.aspx</DependentUpon>
     </Compile>
-    <Compile Include="SystemAdmin\Admin.Master.cs">
-      <DependentUpon>Admin.Master</DependentUpon>
+    <Compile Include="WeatherData.aspx.cs">
+      <DependentUpon>WeatherData.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="SystemAdmin\Admin.Master.designer.cs">
-      <DependentUpon>Admin.Master</DependentUpon>
+    <Compile Include="WeatherData.aspx.designer.cs">
+      <DependentUpon>WeatherData.aspx</DependentUpon>
     </Compile>
-    <Compile Include="SystemAdmin\UserControl\ucPager.ascx.cs">
-      <DependentUpon>ucPager.ascx</DependentUpon>
+    <Compile Include="WeatherDataHandler.ashx.cs">
+      <DependentUpon>WeatherDataHandler.ashx</DependentUpon>
+    </Compile>
+    <Compile Include="WeatherDataModel.cs" />
+    <Compile Include="WeatherDataReader.cs" />
+    <Compile Include="WebForm1.aspx.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="SystemAdmin\UserControl\ucPager.ascx.designer.cs">
-      <DependentUpon>ucPager.ascx</DependentUpon>
+    <Compile Include="WebForm1.aspx.designer.cs">
+      <DependentUpon>WebForm1.aspx</DependentUpon>
     </Compile>
-    <Compile Include="SystemAdmin\UserControl\ucPager2.ascx.cs">
-      <DependentUpon>ucPager2.ascx</DependentUpon>
+    <Compile Include="WebForm2.aspx.cs">
+      <DependentUpon>WebForm2.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="SystemAdmin\UserControl\ucPager2.ascx.designer.cs">
-      <DependentUpon>ucPager2.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="SystemAdmin\UserInfo.aspx.cs">
-      <DependentUpon>UserInfo.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="SystemAdmin\UserInfo.aspx.designer.cs">
-      <DependentUpon>UserInfo.aspx</DependentUpon>
+    <Compile Include="WebForm2.aspx.designer.cs">
+      <DependentUpon>WebForm2.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Handlers\AccountingNoteList.ashx" />
     <None Include="packages.config" />
-    <Content Include="SystemAdmin\Admin.Master" />
+    <Content Include="WeatherDataHandler.ashx" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -159,20 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\AccountingNote.Auth\AccountingNote.Auth.csproj">
-      <Project>{195249a1-aad1-432b-af23-f52799380535}</Project>
-      <Name>AccountingNote.Auth</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\AccountingNote.DBSource\AccountingNote.DBSource.csproj">
-      <Project>{c9dd785a-7792-4bd3-aef6-070c8b7ebd05}</Project>
-      <Name>AccountingNote.DBSource</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WebApplication1\WebApplication1.csproj">
-      <Project>{FFA19E04-B465-45BC-8713-F81DEBC831AB}</Project>
-      <Name>WebApplication1</Name>
-    </ProjectReference>
+    <Folder Include="Models\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -187,9 +162,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>60072</DevelopmentServerPort>
+          <DevelopmentServerPort>52539</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:60072/</IISUrl>
+          <IISUrl>http://localhost:52539/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -34,28 +34,37 @@ namespace AccountingNote.SystemAdmin
                 Response.Redirect("/Login.aspx");
                 return;
             }
+            
             // Read Accounting data
             var dt = AccountingManager.GetAccountingList(currentUser.ID);
             
             if(dt.Rows.Count > 0)    // check is empty data
             {
-                int totalPages = this.GetTotalpage(dt); //讀取現在的總頁數
                 var dtPaged = this.GetPagedDataTable(dt);
+
+                //int totalPages = this.GetTotalpage(dt); //讀取現在的總頁數
+                
+                //重新打造這個分頁的userControl
+                this.ucPager2.Totalsize = dt.Rows.Count;
+                this.ucPager2.Bind();
 
                 this.gvAccountingList.DataSource = dtPaged;  //資料繫結
                 this.gvAccountingList.DataBind();
 
-                var pages = (dt.Rows.Count / 10);   //分頁數量: 筆數/10
-                if (dt.Rows.Count % 10 > 0)
-                    pages += 1;
-
-
-                this.ltPage.Text = $"{dt.Rows.Count}筆，共{pages}頁，目前在第{this.GetCurrentPage()}頁";
+                //this.ucPager.Totalsize = dt.Rows.Count;
+                //this.ucPager.Bind();
                 
-                for(var i = 1; i <= totalPages; i++)   //分頁超連結
-                {
-                    this.ltPage.Text += $"<a href='AccountingList.aspx?page={i}'>{i}</av>&nbsp";
-                }
+                
+                //var pages = (dt.Rows.Count / 10);   //分頁數量: 筆數/10
+                //if (dt.Rows.Count % 10 > 0)
+                //    pages += 1;
+
+                //this.ltPage.Text = $"{dt.Rows.Count}筆，共{pages}頁，目前在第{this.GetCurrentPage()}頁";
+
+                //for(var i = 1; i <= totalPages; i++)   //分頁超連結
+                //{
+                //    this.ltPage.Text += $"<a href='AccountingList.aspx?page={i}'>{i}</av>&nbsp";
+                //}
             }
             else
             {
@@ -65,7 +74,7 @@ namespace AccountingNote.SystemAdmin
             //this.gvAccountingList.DataSource = dt;   //如沒註解，會顯示10筆以上的資料，因其跳過dt審核條件，導致資料全部顯示
             //this.gvAccountingList.DataBind(); 
         }
-        
+
         private int GetTotalpage(DataTable dt)
         {
             int pagers = dt.Rows.Count / 10;
@@ -102,15 +111,18 @@ namespace AccountingNote.SystemAdmin
             DataTable dtPaged = dt.Clone();  //為不複製資料，複製欄位
             //dt.Copy();                    //如果資料為0筆，會出錯
 
+            int pagesize = this.ucPager2.PageSize;  //gridview做分頁時，直接拿分頁控制項的筆數作顯示
+
             // 複製現有的資料並回傳
             //foreach(DataRow dr in dt.Rows)
 
-            int startIndex = (this.GetCurrentPage() - 1) * 10;
-            int endIndex = this.GetCurrentPage() * 10;
+            int startIndex = (this.GetCurrentPage() - 1) * pagesize;
+            int endIndex = this.GetCurrentPage() * pagesize;
 
             if (endIndex > dt.Rows.Count)   //預防索引值超過範圍
                 endIndex = dt.Rows.Count;
 
+            
             for(var i = startIndex; i < endIndex; i++)      //只拿出前10筆的資料
             {
                 DataRow dr = dt.Rows[i];

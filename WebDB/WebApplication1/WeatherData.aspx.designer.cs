@@ -7,38 +7,47 @@
 // </自動產生的>
 //------------------------------------------------------------------------------
 
-namespace AccountingNote1.SystemAdmin
+namespace WebApplication1
 {
 
 
-    public partial class Userlist
+    public partial class WeatherData
     {
 
         /// <summary>
-        /// Button1 控制項。
+        /// form1 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// GridView1 控制項。
+        /// Itlocation 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView GridView1;
+        protected global::System.Web.UI.WebControls.Literal Itlocation;
 
         /// <summary>
-        /// ucPager 控制項。
+        /// ItTemp 控制項。
         /// </summary>
         /// <remarks>
         /// 自動產生的欄位。
         /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
         /// </remarks>
-        protected global::AccountingNote1.SystemAdmin.UserControl.ucPager ucPager;
+        protected global::System.Web.UI.WebControls.Literal ItTemp;
+
+        /// <summary>
+        /// ItPop24 控制項。
+        /// </summary>
+        /// <remarks>
+        /// 自動產生的欄位。
+        /// 若要修改，請將欄位宣告從設計工具檔案移到程式碼後置檔案。
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal ItPop24;
     }
 }

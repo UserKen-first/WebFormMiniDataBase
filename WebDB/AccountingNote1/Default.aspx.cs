@@ -13,5 +13,10 @@ namespace AccountingNote
         {
 
         }
+
+        protected void BtnLogin_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("/Login.aspx");
+        }
     }
 }

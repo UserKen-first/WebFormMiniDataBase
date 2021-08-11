@@ -9,7 +9,10 @@
 </head>
 <body>
     <form id="form1" runat="server">
-        <div>
+        <h1>流水帳管理系統</h1>
+        <div id="DefaultShow">
+
+            <asp:Button ID="BtnLogin" runat="server" Text="登入系統" OnClick="BtnLogin_Click" />
         </div>
     </form>
 </body>
