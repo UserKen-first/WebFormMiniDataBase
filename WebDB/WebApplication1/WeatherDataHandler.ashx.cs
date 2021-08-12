@@ -21,7 +21,10 @@ namespace WebApplication1
             if(acc == "Ken" && pwd == "12345678")
             {
                 context.Response.ContentType = "application/json";
+                
                 WeatherDataModel model = WeatherDataReader.ReadData();
+                model.Name += acc;      //將QueryString取得的值放入Name屬性的最後面
+                
                 string jsonText = Newtonsoft.Json.JsonConvert.SerializeObject(model);
                 context.Response.Write(jsonText);
             }
@@ -29,6 +32,7 @@ namespace WebApplication1
             {
                 context.Response.StatusCode = 401;
                 context.Response.End();
+                // context.Response.Write("");
             }
             
             //context.Response.ContentType = "application/json"; //強制瀏覽器當成json處理

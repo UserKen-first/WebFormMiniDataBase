@@ -38,7 +38,6 @@ namespace AccountingNote.DBSource
                 return null;
             }
         }
-
         public static void CreateAccounting(string userID, string caption, int amount, int actType, string body)
         {
             // <<<<< check input >>>>>
