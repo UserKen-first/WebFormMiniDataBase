@@ -12,13 +12,13 @@ namespace TryReadWebAPI
     {
         static void Main(string[] args)
         {
-            WebClient client = new WebClient();
+            WebClient client = new WebClient();   //WebClient 可以去網路上下載別人東西的套件
             // string jspnText = client.DownloadString("https://apiservice.mol.gov.tw/OdService/download/A17010000J-000135-Sfk");
 
             // 送一個HTTP Request到伺服器，伺服器再回傳Response內容給瀏覽器
-            byte[] sourceByte = client.DownloadData("https://apiservice.mol.gov.tw/OdService/rest/datastore/A17010000J-000135-MOZ");
-            string jspnText = Encoding.UTF8.GetString(sourceByte);  // 下載位元組陣列，強制轉換成指定編碼的字串，再輸出
-
+            byte[] sourceByte = client.DownloadData("https://apiservice.mol.gov.tw/OdService/rest/datastore/A17010000J-000135-MOZ"); //把原始二進位編碼載下來但不轉成字串
+            string jspnText = Encoding.UTF8.GetString(sourceByte);  // 來源的位元組陣列，強制轉換成指定編碼的字串，再輸出
+            // .Net底層以UTF8為編碼格式
 
             //byte[] sourceByte = client.DownloadData("https://www.google.com.tw/");
             //string jspnText = Encoding.UTF8.GetString(sourceByte);

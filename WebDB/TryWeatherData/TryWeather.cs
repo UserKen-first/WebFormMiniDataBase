@@ -29,9 +29,11 @@ namespace TryWeatherData
                     {
                         if (weatherItem.elementName == "T")
                         {
-                            var eleVal = weatherItem.time[0].elementValue;
-                            var tJsonText = Newtonsoft.Json.JsonConvert.SerializeObject(eleVal);
-                            MeasureObject measure = Newtonsoft.Json.JsonConvert.DeserializeObject<MeasureObject>(tJsonText);
+                            // 0811 問題點: 執行時，設中斷點會跑出不存在此表單的東西 => if、StringObject、jspnText
+                            // 0811 問題點: eleVal取得需求值，此時為物件格式，其格式不是只有值
+                            var eleVal = weatherItem.time[0].elementValue;   //elementValue是個物件，沒有任何的型別
+                            var tJsonText = Newtonsoft.Json.JsonConvert.SerializeObject(eleVal); //字串
+                            MeasureObject measure = Newtonsoft.Json.JsonConvert.DeserializeObject<MeasureObject>(tJsonText); //反序列化 轉成物件
 
                             Console.WriteLine("太魯閣國家公園太魯閣遊客中心 - 目前溫度:" + measure.value);
                         }
@@ -48,12 +50,12 @@ namespace TryWeatherData
             }
         }
     }
-    public class MeasureObject
+    public class MeasureObject  //自行增加的Class
     {
         public string value { get; set; }
         public string measures { get; set; }
     }
-    
+    // 頁面上原值
     public class Rootobject
     {
         public Cwbopendata cwbopendata { get; set; }

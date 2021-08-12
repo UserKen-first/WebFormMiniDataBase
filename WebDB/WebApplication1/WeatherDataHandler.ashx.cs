@@ -10,7 +10,7 @@ namespace WebApplication1
     /// </summary>
     public class WeatherDataHandler : IHttpHandler
     {
-
+        //透過此WebAPI與DB溝通，產生JSON物件供其他介面使用
         public void ProcessRequest(HttpContext context)
         {
             string acc = context.Request.QueryString["account"];
@@ -20,7 +20,7 @@ namespace WebApplication1
 
             if(acc == "Ken" && pwd == "12345678")
             {
-                context.Response.ContentType = "application/json";
+                context.Response.ContentType = "application/json"; //模擬成json
                 
                 WeatherDataModel model = WeatherDataReader.ReadData();
                 model.Name += acc;      //將QueryString取得的值放入Name屬性的最後面

@@ -9,7 +9,7 @@ namespace WebApplication1
 {
     public static class WeatherDataReader
     {
-        public static WeatherDataModel ReadData()
+        public static WeatherDataModel ReadData() // WeatherDataModel 為一個資料容器
         {
             string url = "https://opendata.cwb.gov.tw/fileapi/v1/opendataapi/F-B0053-037?Authorization=CWB-9353C700-F428-4F4F-9A0F-BC21AE18B448&downloadType=WEB&format=JSON";
 

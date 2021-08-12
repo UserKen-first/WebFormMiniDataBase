@@ -49,7 +49,7 @@ namespace AccountingNote1.Handlers
                     Caption = drAccounting["Caption"].ToString(),
                     Amount = drAccounting.Field<int>("Amount"),
                     ActType =
-                    (drAccounting.Field<int>("ActType") == 0) ? "支出" : "收入",
+                    (drAccounting.Field<int>("ActType") == 0) ? "支出" : "收入", //Field<int>轉格式
                     CreatDate = drAccounting.Field<DateTime>("CreateDate").ToString("yyyy-MM-dd")
                 };
 
