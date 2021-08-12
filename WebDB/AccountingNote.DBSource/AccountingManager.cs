@@ -48,27 +48,35 @@ namespace AccountingNote.DBSource
                 throw new ArgumentException("ActType must be 0 or 1.");
             // <<<<< check input >>>>>
 
+            // 檢查傳進來的body參數
+            string bodyColumnSQL = "";
+            string bodyValueSQL = "";
+            if (!string.IsNullOrWhiteSpace(body))
+            {
+                bodyColumnSQL = ", Body";
+                bodyValueSQL = ", @Body";
+            }
+
             string connStr = DBHelper.GetConnectionString();
             string dbCommand =
-                $@"INSERT INTO [dbo].[Accounting]
-                   (
-                        UserID
-                       ,Caption
-                       ,Amount
-                       ,ActType
-                       ,CreateDate
-                       ,Body
-                    )
-                VALUES
-                    (
-                        @userID
-                       ,@caption
-                       ,@amount
-                       ,@actType
-                       ,@createDate
-                       ,@body
-                    )
-                ";
+            $@" INSERT INTO [dbo].[Accounting]
+                (
+                    UserID
+                    ,Caption
+                    ,Amount
+                    ,ActType
+                    ,CreateDate
+                    {bodyColumnSQL}
+                )
+                    VALUES
+                (
+                    @userID
+                    ,@caption
+                    ,@amount
+                    ,@actType
+                    ,@createDate
+                    {bodyValueSQL}
+                ) ";
 
             // connect db & execute
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -80,13 +88,14 @@ namespace AccountingNote.DBSource
                     comm.Parameters.AddWithValue("@amount", amount);
                     comm.Parameters.AddWithValue("@actType", actType);
                     comm.Parameters.AddWithValue("@createDate", DateTime.Now);
-                    comm.Parameters.AddWithValue("@body", body);
+
+                    if (!string.IsNullOrWhiteSpace(body))
+                        comm.Parameters.AddWithValue("@body", body);
 
                     try
                     {
                         conn.Open();
                         comm.ExecuteNonQuery();
-
                     }
                     catch (Exception ex)
                     {
