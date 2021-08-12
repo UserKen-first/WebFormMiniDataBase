@@ -134,7 +134,7 @@ namespace AccountingNote.DBSource
             }
         }
 
-        public static bool UpdateAccounting(int ID, string userID, string caption, int amount, int actType, string body)  //查詢用Method
+        public static bool UpdateAccounting(int ID, string userID, string caption, int amount, int actType, string body)
         {
             // <<<<< check input >>>>>
             if (amount < 0 || amount > 1000000)
@@ -143,6 +143,15 @@ namespace AccountingNote.DBSource
             if (actType < 0 || actType > 1)
                 throw new ArgumentException("ActType must be 0 or 1.");
             // <<<<< check input >>>>>
+
+            // 檢查傳進來的body參數
+            string bodyColumnSQL = "";
+            string bodyValueSQL = "";
+            if (!string.IsNullOrWhiteSpace(body))
+            {
+                bodyColumnSQL = ", Body";
+                bodyValueSQL = " @body";
+            }
 
             string connStr = DBHelper.GetConnectionString();
             string dbCommand =
@@ -153,7 +162,7 @@ namespace AccountingNote.DBSource
                        ,Amount = @amount
                        ,ActType = @actType
                        ,CreateDate = @createDate
-                       ,Body = @body
+                       {bodyColumnSQL} = {bodyValueSQL}
                     WHERE
                         ID = @id  ";
 
@@ -163,7 +172,8 @@ namespace AccountingNote.DBSource
             paramList.Add(new SqlParameter("@amount", amount));
             paramList.Add(new SqlParameter("@actType", actType));
             paramList.Add(new SqlParameter("@createDate", DateTime.Now));
-            paramList.Add(new SqlParameter("@body", body));
+            if (!string.IsNullOrWhiteSpace(body))
+                paramList.Add(new SqlParameter("@body", body));
             paramList.Add(new SqlParameter("@id", ID));
             try
             {
