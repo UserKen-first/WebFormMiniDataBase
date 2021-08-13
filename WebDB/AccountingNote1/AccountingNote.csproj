@@ -73,6 +73,7 @@
     <Content Include="AjaxAccountingNote.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Img\Search.png" />
     <Content Include="Login.aspx" />
     <Content Include="Scripts\jquery-3.6.0.min.js" />
     <Content Include="Scripts\WebForm1.js" />

@@ -12,7 +12,7 @@ namespace AccountingNote1.Models
         public string Caption { get; set; }
         public int Amount { get; set; }
         public string ActType { get; set; }
-        public string CreatDate { get; set; }
+        public string CreateDate { get; set; }
         public string Body { get; set; }
     }
 }

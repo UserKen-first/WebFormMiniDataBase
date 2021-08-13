@@ -131,7 +131,7 @@ namespace AccountingNote1.Handlers
                     ID = drAccounting["ID"].ToString(),
                     Caption = drAccounting["Caption"].ToString(),
                     Body = drAccounting["Body"].ToString(),
-                    CreatDate = drAccounting.Field<DateTime>("CreateDate").ToString("yyyy-MM-dd"),
+                    CreateDate = drAccounting.Field<DateTime>("CreateDate").ToString("yyyy-MM-dd"),
                     ActType = drAccounting.Field<int>("ActType").ToString(),
                     Amount = drAccounting.Field<int>("Amount")
                 };
@@ -142,11 +142,37 @@ namespace AccountingNote1.Handlers
             
             else if (actionName == "List")
             {
+                string userID = "4FCF6DBD-11D3-4EB1-8F74-4D08D287453C";
+
+                DataTable dataTable = AccountingManager.GetAccountingList(userID);  //透過使用者ID
+
+                // 資料格式轉換成指定格式
+                List<AccountnigNoteViewModel> list = new List<AccountnigNoteViewModel>();
+                foreach (DataRow drAccounting in dataTable.Rows)
+                {
+                    AccountnigNoteViewModel model = new AccountnigNoteViewModel()
+                    {
+                        ID = drAccounting["ID"].ToString(),
+                        Caption = drAccounting["Caption"].ToString(),
+                        Amount = drAccounting.Field<int>("Amount"),
+                        ActType =
+                        (drAccounting.Field<int>("ActType") == 0) ? "支出" : "收入", //Field<int>轉格式
+                        CreateDate = drAccounting.Field<DateTime>("CreateDate").ToString("yyyy-MM-dd")
+                    };
+
+
+                    list.Add(model);
+                }
+                // 序列化list這個容器即可
+                string jsonText = Newtonsoft.Json.JsonConvert.SerializeObject(list);
+
+                //序列化
+                context.Response.ContentType = "application/json";
+                context.Response.Write(jsonText);
             }
 
         }
         
-
         private void ProcessError(HttpContext context, string msg)
         {
             context.Response.StatusCode = 400;

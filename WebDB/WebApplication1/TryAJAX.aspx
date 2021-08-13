@@ -13,18 +13,18 @@
 
             var domWeatherData = $("#hfWeatherData").val();
             // 做狀態保留
-            if (domWeatherData) {
+            if (domWeatherData) {                          //如果有值的情況下
                 try {
                     var wData = JSON.parse(domWeatherData) //把一個JSON字串轉換成JavaScript的數值或是物件
 
                     $("#spanLoc").text(wData["Name"]);
                     $("#spanTemp").text(wData["T"]);
-                    $("#spanPop").text(wData["Pop"]);
+                    $("#spanPop").text(wData["Pop"]);      //.text方法為純粹塞字進去
                 }
                 catch {
-                    $("#spanLoc").text("");
-                    $("#spanTemp").text("");
-                    $("#spanPop").text("");
+                    $("#spanLoc").text("-");
+                    $("#spanTemp").text("-");
+                    $("#spanPop").text("-");
                 }
             }
             // button click
@@ -60,12 +60,17 @@
         <%-- 透過AJAX與Handlers溝通，取得值再輸出到頁面 --%>
         Account：<input type="text" id="text1" />
         PassWord：<input type="password" id="pwd1" />
+        
         <%-- Client端的Button不會觸發後端Server的事件 --%>
         <button type="button" id="btn1">Click Me</button> 
+        <%-- Client端事件 --%>
         <div id="div1">
+            <%-- 不是直接打開伺服器的檔案，透過瀏覽器把伺服器上的資料下載下來
+                到了本機打開，再放到瀏覽器上--%>
             --
         </div>
         <asp:HiddenField ID="hfWeatherData" runat="server" value=""/>
+        <%-- HiddenField用來做伺服器端的狀態保留 --%>
         <table border="1">
             <tr>
                 <th>地點 </th>
