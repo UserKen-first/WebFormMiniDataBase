@@ -11,6 +11,7 @@ namespace AccountingNote1.Handlers
     /// CreateAccountingNote 的摘要描述
     /// </summary>
     public class CreateAccountingNote : IHttpHandler
+        // 任務為取得Post的內容
     {
         public void ProcessRequest(HttpContext context)
         {

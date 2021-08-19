@@ -100,13 +100,21 @@
             });
 
             $("#btnDelete").click(function () {
-                $("#hfID").val('');
-                $("#ddlActType").val('');
-                $("#txtAmount").val('');
-                $("#txtCaption").val('');
-                $("#txtDesc").val('');
+                var id = $("#hfID").val();
 
-                $("#divEditor").show(1000);
+                $.ajax({
+                    //取得要連結的地方
+                    url: "http://localhost:60072/Handlers/AccountingNoteHandler.ashx?ActionName=Delete",
+                    type: "POST",
+                    data: {
+                        "ID": id,
+                    },
+                    success: function (result) {
+                        alert("刪除成功");
+                    }
+                });
+
+                $("#divEditor").hide(1000);
             });
 
             $("#divEditor").hide();

@@ -33,12 +33,12 @@
                 var acc = $("#text1").val();
                 var pwd = $("#pwd1").val();
                 var url = "WeatherDataHandler.ashx?account=" + acc;   //JS輸入QS的值裝進變數url中
-
+                // url 以變數的方式做組裝
                 $.ajax({                                  //由瀏覽器送出QueryString變數給伺服器 //由Get傳參數給Server
                     url: url,                             //url的值不寫死，動態輸入
                     type: "Post",                         //由post將表單元素取出後，放入data再輸出至頁面
                     data: {
-                        "Password": pwd                   //data的coulumn Name由後端輸入
+                        "Password": pwd            //傳出去的東西就在此 //data的coulumn Name由後端輸入
                     },
                     success: function (result) {          //在此的result還是一個物件
 

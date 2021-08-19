@@ -105,7 +105,13 @@ namespace AccountingNote1.Handlers
 
             else if (actionName == "Delete")
             {
-
+                string idText = context.Request.Form["ID"];
+                int id;
+                int.TryParse(idText, out id);
+                
+                AccountingManager.DeleteAccout(id);
+                context.Response.ContentType = "text/plain";
+                context.Response.Write("Delete Succeed");
             }
             
             else if (actionName == "Query")

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AccountingNote.ORM.DBModel;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -11,7 +12,7 @@ namespace AccountingNote.DBSource
 {
     public class AccountingManager
     {
-        public static DataTable GetAccountingList(string userID)
+        public static DataTable GetAccountingList(string userID) //取得流水帳清單
         {
             string connStr = DBHelper.GetConnectionString();
             string dbCommand =
@@ -31,6 +32,57 @@ namespace AccountingNote.DBSource
             try
             {
                 return DBHelper.ReadDataTable(connStr, dbCommand, list);
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLog(ex);
+                return null;
+            }
+        }
+
+        public static List<Accounting> GetAccountingList(Guid userID)
+        {
+            try
+            {
+                // Guid.TryParse(userID, out Guid tempGUID); // 判斷是否為GUID
+                using (ContextModel context = new ContextModel())
+                {
+                    var query =
+                        (from item in context.Accountings
+                         where item.UserID == userID
+                         select item);
+                    var list = query.ToList();
+                    return list;
+
+                }
+            }
+            catch(Exception ex)
+            {
+                logger.WriteLog(ex);
+                return null;
+            }
+        }
+        public static DataRow GetAccounting(int id, string userID)  //查詢單筆
+        {
+            string connStr = DBHelper.GetConnectionString();
+            string dbCommand =
+                $@"     SELECT 
+                           ID,
+                          Caption,
+                          Amount,
+                          ActType,
+                          CreateDate,
+                          Body
+                        FROM Accounting
+                        WHERE id = @id AND UserID = @userID
+                ";
+            List<SqlParameter> list = new List<SqlParameter>();
+            list.Add(new SqlParameter("@id", id));
+            list.Add(new SqlParameter("@userID", userID));
+
+            try
+            {
+                return DBHelper.ReadDataRow(connStr, dbCommand, list);
             }
             catch (Exception ex)
             {
@@ -104,36 +156,6 @@ namespace AccountingNote.DBSource
                 }
             }
         }
-
-        public static DataRow GetAccounting(int id, string userID)  //編輯用Method
-        {
-            string connStr = DBHelper.GetConnectionString();
-            string dbCommand =
-                $@"     SELECT 
-                           ID,
-                          Caption,
-                          Amount,
-                          ActType,
-                          CreateDate,
-                          Body
-                        FROM Accounting
-                        WHERE id = @id AND UserID = @userID
-                ";
-            List<SqlParameter> list = new List<SqlParameter>();
-            list.Add(new SqlParameter("@id", id));
-            list.Add(new SqlParameter("@userID", userID));
-
-            try
-            {
-                return DBHelper.ReadDataRow(connStr, dbCommand, list);
-            }
-            catch (Exception ex)
-            {
-                logger.WriteLog(ex);
-                return null;
-            }
-        }
-
         public static bool UpdateAccounting(int ID, string userID, string caption, int amount, int actType, string body)
         {
             // <<<<< check input >>>>>
@@ -211,7 +233,5 @@ namespace AccountingNote.DBSource
                 logger.WriteLog(ex);
             }
         }
-
-
     }
 }
