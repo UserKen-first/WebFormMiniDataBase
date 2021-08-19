@@ -5,6 +5,8 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using AccountingNote1.Models;
+using AccountingNote1.Extensions;
+using AccountingNote.ORM.DBModel;
 
 namespace AccountingNote1.Handlers
 {
@@ -36,28 +38,38 @@ namespace AccountingNote1.Handlers
             }
 
             // 查詢這個使用者所有的流水帳
-            string userID = dr["ID"].ToString();
-            DataTable dataTable = AccountingManager.GetAccountingList(userID);  //透過使用者ID
+            string userID = dr["ID"].ToString(); // 字串
+            Guid userGUID = userID.ToGuid();  // 字串轉Guid => 寫成字串的擴充方法
+            List<Accounting> sourceList = AccountingManager.GetAccountingList(userGUID);
 
             // 資料格式轉換成指定格式
-            List<AccountnigNoteViewModel> list = new List<AccountnigNoteViewModel>();
-            foreach (DataRow drAccounting in dataTable.Rows)
+            //List<AccountnigNoteViewModel> list = new List<AccountnigNoteViewModel>();
+            //foreach (DataRow drAccounting in dataTable.Rows)
+            //{
+            //    AccountnigNoteViewModel model = new AccountnigNoteViewModel()
+            //    {
+            //        ID = drAccounting["ID"].ToString(),
+            //        Caption = drAccounting["Caption"].ToString(),
+            //        Amount = drAccounting.Field<int>("Amount"),
+            //        ActType =
+            //        (drAccounting.Field<int>("ActType") == 0) ? "支出" : "收入", //Field<int>轉格式
+            //        CreateDate = drAccounting.Field<DateTime>("CreateDate").ToString("yyyy-MM-dd")
+            //    };
+
+
+            //    list.Add(model);
+            //}
+            List<AccountnigNoteViewModel> list = sourceList.Select(obj => new AccountnigNoteViewModel()
             {
-                AccountnigNoteViewModel model = new AccountnigNoteViewModel()
-                {
-                    ID = drAccounting["ID"].ToString(),
-                    Caption = drAccounting["Caption"].ToString(),
-                    Amount = drAccounting.Field<int>("Amount"),
-                    ActType =
-                    (drAccounting.Field<int>("ActType") == 0) ? "支出" : "收入", //Field<int>轉格式
-                    CreateDate = drAccounting.Field<DateTime>("CreateDate").ToString("yyyy-MM-dd")
-                };
-
-
-                list.Add(model);
-        }
-        // 序列化list這個容器即可
-        string jsonText = Newtonsoft.Json.JsonConvert.SerializeObject(list);
+                ID = obj.ID.ToString(),
+                Caption = obj.Caption,
+                Amount = obj.Amount,
+                ActType = (obj.ActType == 0) ? "支出" : "收入",
+                CreateDate = obj.CreateDate.ToString("yyyy-MM-dd")
+            }).ToList();
+        
+            // 序列化list這個容器即可
+            string jsonText = Newtonsoft.Json.JsonConvert.SerializeObject(list);
 
         //序列化
         context.Response.ContentType = "application/json";

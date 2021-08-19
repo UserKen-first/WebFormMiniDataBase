@@ -1,5 +1,6 @@
 ﻿using AccountingNote.Auth;
 using AccountingNote.DBSource;
+using AccountingNote.ORM.DBModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -35,45 +36,50 @@ namespace AccountingNote.SystemAdmin
                 return;
             }
             
-            // Read Accounting data
-            var dt = AccountingManager.GetAccountingList(currentUser.ID);
-            
-            if(dt.Rows.Count > 0)    // check is empty data
+            // Read Accounting data   // list => 變成強型別清單
+            var list = AccountingManager.GetAccountingList(currentUser.UserGUID); //回傳值變成List<Accounting>
+
+            //if(dt.Rows.Count > 0)    // check is empty data
+            //{
+            //    var dtPaged = this.GetPagedDataTable(dt);
+
+            //    //int totalPages = this.GetTotalpage(dt); //讀取現在的總頁數
+
+            //    //重新打造這個分頁的userControl
+            //    this.ucPager2.Totalsize = dt.Rows.Count;
+            //    this.ucPager2.Bind();
+            if (list.Count > 0)
             {
-                var dtPaged = this.GetPagedDataTable(dt);
+                var pagedList = this.GetPageDataTable(list);
 
-                //int totalPages = this.GetTotalpage(dt); //讀取現在的總頁數
-                
-                //重新打造這個分頁的userControl
-                this.ucPager2.Totalsize = dt.Rows.Count;
-                this.ucPager2.Bind();
-
-                this.gvAccountingList.DataSource = dtPaged;  //資料繫結
+                this.gvAccountingList.DataSource = pagedList;  //資料繫結
                 this.gvAccountingList.DataBind();
 
-                //this.ucPager.Totalsize = dt.Rows.Count;
-                //this.ucPager.Bind();
-                
-                
-                //var pages = (dt.Rows.Count / 10);   //分頁數量: 筆數/10
-                //if (dt.Rows.Count % 10 > 0)
-                //    pages += 1;
-
-                //this.ltPage.Text = $"{dt.Rows.Count}筆，共{pages}頁，目前在第{this.GetCurrentPage()}頁";
-
-                //for(var i = 1; i <= totalPages; i++)   //分頁超連結
-                //{
-                //    this.ltPage.Text += $"<a href='AccountingList.aspx?page={i}'>{i}</av>&nbsp";
-                //}
+                this.ucPager2.Totalsize = list.Count;
+                this.ucPager2.Bind();
             }
             else
             {
                 this.gvAccountingList.Visible = false;
                 this.PlcNoData.Visible = true;
             }
-            //this.gvAccountingList.DataSource = dt;   //如沒註解，會顯示10筆以上的資料，因其跳過dt審核條件，導致資料全部顯示
-            //this.gvAccountingList.DataBind(); 
         }
+
+
+        //var pages = (dt.Rows.Count / 10);   //分頁數量: 筆數/10
+        //if (dt.Rows.Count % 10 > 0)
+        //    pages += 1;
+
+        //this.ltPage.Text = $"{dt.Rows.Count}筆，共{pages}頁，目前在第{this.GetCurrentPage()}頁";
+
+        //for(var i = 1; i <= totalPages; i++)   //分頁超連結
+        //{
+        //    this.ltPage.Text += $"<a href='AccountingList.aspx?page={i}'>{i}</av>&nbsp";
+        //}
+
+
+        //this.gvAccountingList.DataSource = dt;   //如沒註解，會顯示10筆以上的資料，因其跳過dt審核條件，導致資料全部顯示
+        //this.gvAccountingList.DataBind(); 
 
         private int GetTotalpage(DataTable dt)
         {
@@ -89,6 +95,12 @@ namespace AccountingNote.SystemAdmin
             // 10 --> 1
             // 15 --> 1
         }
+        private List<Accounting> GetPageDataTable(List<Accounting> list)
+        {
+            int startIndex = (this.GetCurrentPage() - 1) * 10;
+            return list.Skip(startIndex).Take(10).ToList();
+        }
+        
         private int GetCurrentPage()
         {
             string pageText = Request.QueryString["Page"];
@@ -151,8 +163,11 @@ namespace AccountingNote.SystemAdmin
                 Label lbl = row.FindControl("lbltype") as Label;
                 //ltl.Text = "OK";
 
-                var dr = row.DataItem as DataRowView;
-                int actType = dr.Row.Field<int>("ActType"); //確定裡面裝的是整數，可使用此方法轉型
+                //var dr = row.DataItem as DataRowView;
+                //int actType = dr.Row.Field<int>("ActType"); //確定裡面裝的是整數，可使用此方法轉型
+
+                var rowData = row.DataItem as Accounting;
+                int actType = rowData.Amount;
 
                 if (actType == 0)
                 {
@@ -165,9 +180,9 @@ namespace AccountingNote.SystemAdmin
                     lbl.Text = "收入";
                 }
 
-                if (dr.Row.Field<int>("Amount") > 1500)
+                if (rowData.Amount > 1500)
                 {
-                    if (dr.Row.Field<int>("Amount") < 500000)
+                    if (rowData.Amount < 500000)
                     {
                         lbl.ForeColor = Color.Red;
                     }

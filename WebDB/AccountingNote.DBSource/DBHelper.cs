@@ -36,7 +36,6 @@ namespace AccountingNote.DBSource
                 }
             }
         }
-
         public static DataRow ReadDataRow(string connStr, string dbCommand, List<SqlParameter> list)
         {
             using (SqlConnection conn = new SqlConnection(connStr))
@@ -58,7 +57,6 @@ namespace AccountingNote.DBSource
                 }
             }
         }
-
         public static int ModifyData(string connectionString, string dbCommandString, List<SqlParameter> paramList)
         {
             // 主要功能連線，

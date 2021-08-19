@@ -106,6 +106,7 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\StringExtension.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -194,6 +195,10 @@
     <ProjectReference Include="..\AccountingNote.DBSource\AccountingNote.DBSource.csproj">
       <Project>{c9dd785a-7792-4bd3-aef6-070c8b7ebd05}</Project>
       <Name>AccountingNote.DBSource</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\AccountingNote.ORM\AccountingNote.ORM.csproj">
+      <Project>{a10565f9-efb5-479e-99ec-a7c8f9ffd5fb}</Project>
+      <Name>AccountingNote.ORM</Name>
     </ProjectReference>
     <ProjectReference Include="..\WebApplication1\WebApplication1.csproj">
       <Project>{FFA19E04-B465-45BC-8713-F81DEBC831AB}</Project>

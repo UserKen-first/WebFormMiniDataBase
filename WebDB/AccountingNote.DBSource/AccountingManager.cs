@@ -40,10 +40,16 @@ namespace AccountingNote.DBSource
             }
         }
 
+        /// <summary>
+        /// 查詢流水帳清單
+        /// </summary>
+        /// <param name="userID"></param>
+        /// <returns></returns>
         public static List<Accounting> GetAccountingList(Guid userID)
         {
             try
             {
+                
                 // Guid.TryParse(userID, out Guid tempGUID); // 判斷是否為GUID
                 using (ContextModel context = new ContextModel())
                 {
@@ -51,9 +57,11 @@ namespace AccountingNote.DBSource
                         (from item in context.Accountings
                          where item.UserID == userID
                          select item);
-                    var list = query.ToList();
+                    var list = query.ToList(); 
+                                                //將資料由DataTable轉成List => IEnumberable
+                                               // 不能回傳 query 因為只有這裡使用 ORM
+                                               // 回到網站後就沒有地方使用 ORM 了，變成"物件"的東西就跟 ORM 沒關係了
                     return list;
-
                 }
             }
             catch(Exception ex)
