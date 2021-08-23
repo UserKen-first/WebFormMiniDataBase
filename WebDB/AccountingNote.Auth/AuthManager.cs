@@ -1,4 +1,5 @@
 ﻿using AccountingNote.DBSource;
+using AccountingNote.ORM.DBModel;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -31,21 +32,21 @@ namespace AccountingNote.Auth
             if (account == null)
                 return null;
 
-            DataRow dr = UserInfoManager.GetUserInfoByAccount(account);
+
+            UserInfo userInfo = UserInfoManager.GetUserInfoByAccount_ORM(account);
             
-            if (dr == null)
+            if (userInfo == null)
             {
                 HttpContext.Current.Session
                     ["UserLoginInfo"] = null;
                 return null;
             }
                 
-
             UserInfoModel model = new UserInfoModel();
-            model.ID = dr["ID"].ToString();
-            model.Account = dr["Account"].ToString();
-            model.Name = dr["Name"].ToString();
-            model.Email = dr["Email"].ToString();
+            model.ID = userInfo.ID;
+            model.Account = userInfo.Account;
+            model.Name = userInfo.Name;
+            model.Email = userInfo.Email;
 
             return model;
         }
@@ -67,20 +68,20 @@ namespace AccountingNote.Auth
                 return false;
             }
             // 到DB查使用者資料
-            var dr = UserInfoManager.GetUserInfoByAccount(account); //查詢資料庫是否有這筆資料
+            UserInfo userInfo = UserInfoManager.GetUserInfoByAccount_ORM(account); //查詢資料庫是否有這筆資料
 
             // check null
-            if (dr == null)
+            if (userInfo == null)
             {
                 errorMsg = "Account doesn't exist";
                 return false;
             }
 
             // check account / pwd
-            if (string.Compare(dr["Account"].ToString(), account, true) == 0 &&
-                string.Compare(dr["PWD"].ToString(), pwd, false) == 0)
+            if (string.Compare(userInfo.Account, account, true) == 0 &&
+                string.Compare(userInfo.PWD, pwd, false) == 0)
             {
-                HttpContext.Current.Session["UserLoginInfo"] = dr["Account"].ToString(); //現在的帳號寫進Session去
+                HttpContext.Current.Session["UserLoginInfo"] = userInfo.Account; //現在的帳號寫進Session去
 
                 errorMsg = string.Empty;
                 return true;

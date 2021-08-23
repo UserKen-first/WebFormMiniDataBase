@@ -28,9 +28,9 @@ namespace AccountingNote1.Handlers
                 return;
             }
 
-            var dr = UserInfoManager.GetUserInfoByAccount(account);  //透過帳號檢查使用者是否存在
+            UserInfo userInfo = UserInfoManager.GetUserInfoByAccount_ORM(account);  //透過帳號檢查使用者是否存在
 
-            if (dr == null)
+            if (userInfo == null)
             {
                 context.Response.StatusCode = 404;
                 context.Response.End();
@@ -38,9 +38,9 @@ namespace AccountingNote1.Handlers
             }
 
             // 查詢這個使用者所有的流水帳
-            string userID = dr["ID"].ToString(); // 字串
-            Guid userGUID = userID.ToGuid();  // 字串轉Guid => 寫成字串的擴充方法
-            List<Accounting> sourceList = AccountingManager.GetAccountingList(userGUID);
+            Guid userID = userInfo.ID; // 字串
+            //Guid userGUID = userID.ToGuid();  // 字串轉Guid => 寫成字串的擴充方法
+            List<Accounting> sourceList = AccountingManager.GetAccountingList(userID);
 
             // 資料格式轉換成指定格式
             //List<AccountnigNoteViewModel> list = new List<AccountnigNoteViewModel>();
@@ -67,23 +67,23 @@ namespace AccountingNote1.Handlers
                 ActType = (obj.ActType == 0) ? "支出" : "收入",
                 CreateDate = obj.CreateDate.ToString("yyyy-MM-dd")
             }).ToList();
-        
+
             // 序列化list這個容器即可
             string jsonText = Newtonsoft.Json.JsonConvert.SerializeObject(list);
 
-        //序列化
-        context.Response.ContentType = "application/json";
+            //序列化
+            context.Response.ContentType = "application/json";
             context.Response.Write(jsonText);
 
             //context.Response.Write("Hello World");
         }
 
-    public bool IsReusable
-    {
-        get
+        public bool IsReusable
         {
-            return false;
+            get
+            {
+                return false;
+            }
         }
     }
-}
 }

@@ -1,5 +1,7 @@
 ﻿using AccountingNote.Auth;
 using AccountingNote.DBSource;
+using AccountingNote.ORM.DBModel;
+using AccountingNote1.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,9 +45,9 @@ namespace AccountingNote.SystemAdmin
                     int id;
                     if (int.TryParse(idText, out id))  //確認能否轉型成數字
                     {
-                        var drAccounting = AccountingManager.GetAccounting(id, currentUser.ID);  //再轉型成內容
+                        var accounting = AccountingManager.GetAccounting(id, currentUser.ID);  //再轉型成內容
                         
-                        if (drAccounting == null) //點了超連結進來
+                        if (accounting == null) //點了超連結進來
                         {
                             this.Itmsg.Text = "Data doesn't exit";
                             this.btnsave.Visible = false;
@@ -53,10 +55,10 @@ namespace AccountingNote.SystemAdmin
                         }
                         else
                         {
-                            this.ddlActType.SelectedValue = drAccounting["ActType"].ToString();
-                            this.TxtAmount.Text = drAccounting["Amount"].ToString();
-                            this.TxtCap.Text = drAccounting["caption"].ToString();
-                            this.TxtDesc.Text = drAccounting["Body"].ToString();
+                            this.ddlActType.SelectedValue = accounting.ActType.ToString();
+                            this.TxtAmount.Text = accounting.Amount.ToString();
+                            this.TxtCap.Text = accounting.Caption;
+                            this.TxtDesc.Text = accounting.Body;
                         }
                     }
                     else
@@ -91,32 +93,43 @@ namespace AccountingNote.SystemAdmin
             }
 
             //通過即一個一個取得輸入值
-            string userID = currentUser.ID;
+            Guid userID = currentUser.ID;
             string actTypeText = this.ddlActType.SelectedValue; //需要注意轉型
             string amountText = this.TxtAmount.Text;    //需要注意轉型
-            string caption = this.TxtCap.Text;
-            string body = this.TxtDesc.Text;
 
             int amount = Convert.ToInt32(amountText);
             int actType = Convert.ToInt32(actTypeText);
 
             string idText = this.Request.QueryString["ID"];  //由網址頁取得ID
+            int id = Convert.ToInt32(idText);
+
+            Accounting accounting = new Accounting()
+            {
+                UserID = userID,
+                ID = id,
+                ActType = actType,
+                Amount = amount,
+                Caption = this.TxtCap.Text,
+                Body = this.TxtDesc.Text
+            };
 
             if (string.IsNullOrWhiteSpace(idText))
             {
                 //新增模式
                 // Execute 'Insert into db'
-                AccountingManager.CreateAccounting(userID, caption, amount, actType, body);
+                //AccountingManager.CreateAccounting(userID, caption, amount, actType, body);
+
+                AccountingManager.CreateAccounting(accounting);
             }
             else
             {
                 //編輯修改模式
-                int id;
+                
                 if (int.TryParse(idText, out id))
                 {
                     // Execute 'update db'
                     // 如果是修改模式 如何拿到使用者id?  ==> 使用Session取得現在登入的是誰，再取得其userID
-                    AccountingManager.UpdateAccounting(id, userID,  caption,  amount,  actType,  body);
+                    AccountingManager.UpdateAccounting(accounting);
                 }
             }
             Response.Redirect("/SystemAdmin/AccountingList.aspx");
@@ -157,7 +170,6 @@ namespace AccountingNote.SystemAdmin
             else
                 return false;
         }
-
         protected void btnDel_Click(object sender, EventArgs e)
         {
             string idtext = this.Request.QueryString["ID"];
@@ -169,7 +181,7 @@ namespace AccountingNote.SystemAdmin
             int id;   //確認方法的指定型別 
             if(int.TryParse(idtext, out id))
             {
-                AccountingManager.DeleteAccout(id);
+                AccountingManager.DeleteAccounting_ORM(id);
             }
                 Response.Redirect("/SystemAdmin/AccountingList.aspx");
         }

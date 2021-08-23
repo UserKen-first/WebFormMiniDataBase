@@ -37,7 +37,7 @@ namespace AccountingNote.SystemAdmin
             }
             
             // Read Accounting data   // list => 變成強型別清單
-            var list = AccountingManager.GetAccountingList(currentUser.UserGUID); //回傳值變成List<Accounting>
+            var list = AccountingManager.GetAccountingList(currentUser.ID); //回傳值變成List<Accounting>
 
             //if(dt.Rows.Count > 0)    // check is empty data
             //{

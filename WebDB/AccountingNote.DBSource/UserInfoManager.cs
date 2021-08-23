@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AccountingNote.ORM.DBModel;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -58,6 +59,26 @@ namespace AccountingNote.DBSource
                         return null;
                     }
                 }
+            }
+        }
+
+        public static UserInfo GetUserInfoByAccount_ORM(string account)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var query = (from item in context.UserInfoes
+                                 where item.Account == account
+                                 select item);
+                    var obj = query.FirstOrDefault();
+                    return obj;
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLog(ex);
+                return null;
             }
         }
     }

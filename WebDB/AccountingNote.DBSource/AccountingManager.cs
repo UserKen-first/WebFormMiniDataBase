@@ -49,7 +49,6 @@ namespace AccountingNote.DBSource
         {
             try
             {
-                
                 // Guid.TryParse(userID, out Guid tempGUID); // 判斷是否為GUID
                 using (ContextModel context = new ContextModel())
                 {
@@ -70,27 +69,19 @@ namespace AccountingNote.DBSource
                 return null;
             }
         }
-        public static DataRow GetAccounting(int id, string userID)  //查詢單筆
+        public static Accounting GetAccounting(int id, Guid userID)  //查詢單筆
         {
-            string connStr = DBHelper.GetConnectionString();
-            string dbCommand =
-                $@"     SELECT 
-                           ID,
-                          Caption,
-                          Amount,
-                          ActType,
-                          CreateDate,
-                          Body
-                        FROM Accounting
-                        WHERE id = @id AND UserID = @userID
-                ";
-            List<SqlParameter> list = new List<SqlParameter>();
-            list.Add(new SqlParameter("@id", id));
-            list.Add(new SqlParameter("@userID", userID));
-
             try
             {
-                return DBHelper.ReadDataRow(connStr, dbCommand, list);
+                using (ContextModel context = new ContextModel())
+                {
+                    var query =
+                        (from item in context.Accountings
+                         where item.UserID == userID && item.ID == id
+                         select item);
+                    var obj = query.FirstOrDefault();
+                    return obj;
+                }
             }
             catch (Exception ex)
             {
@@ -164,6 +155,30 @@ namespace AccountingNote.DBSource
                 }
             }
         }
+        public static void CreateAccounting(Accounting accounting) //外部只要讀物件就好
+        {
+
+            if (accounting.Amount < 0 || accounting.Amount > 1000000)
+                throw new ArgumentException("Amount must between 0 and 1,000,000.");
+
+            if (accounting.ActType < 0 || accounting.ActType > 1)
+                throw new ArgumentException("ActType must be 0 or 1.");
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    accounting.CreateDate = DateTime.Now;
+                    context.Accountings.Add(accounting);
+                    context.SaveChanges();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLog(ex);
+                return;
+            }
+        }
         public static bool UpdateAccounting(int ID, string userID, string caption, int amount, int actType, string body)
         {
             // <<<<< check input >>>>>
@@ -220,6 +235,41 @@ namespace AccountingNote.DBSource
                 return false;
             }
         }
+        public static bool UpdateAccounting(Accounting accounting)
+        {
+            if (accounting.Amount < 0 || accounting.Amount > 1000000)
+                throw new ArgumentException("Amount must between 0 and 1,000,000.");
+
+            if (accounting.ActType < 0 || accounting.ActType > 1)
+                throw new ArgumentException("ActType must be 0 or 1.");
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var dbobject =
+                        context.Accountings.Where(obj => obj.ID
+                        == accounting.ID).FirstOrDefault();
+
+                    if (dbobject != null)
+                    {
+                        dbobject.Caption = accounting.Caption;
+                        dbobject.Body = accounting.Body;
+                        dbobject.Amount = accounting.Amount;
+                        dbobject.ActType = accounting.ActType;
+
+                        context.SaveChanges();
+
+                        return false;
+                    }
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLog(ex);
+                return false;
+            }
+        }
         public static void DeleteAccout(int ID)
         {
             string connectionString = DBHelper.GetConnectionString();
@@ -235,6 +285,28 @@ namespace AccountingNote.DBSource
             try
             {
                 DBHelper.ModifyData(connectionString, dbCommandString, paramList);
+            }
+            catch (Exception ex)
+            {
+                logger.WriteLog(ex);
+            }
+        }
+        public static void DeleteAccounting_ORM(int ID)
+        {
+            try
+            {
+                using (ContextModel context = new ContextModel())
+                {
+                    var dbobject =
+                        context.Accountings.Where(obj => obj.ID
+                        == ID).FirstOrDefault();
+                    if(dbobject != null)
+                    {
+                        context.Accountings.Remove(dbobject);
+                        context.SaveChanges();
+                    }
+                    
+                }
             }
             catch (Exception ex)
             {
