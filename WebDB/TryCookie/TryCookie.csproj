@@ -68,8 +68,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AdminPage\default.aspx" />
+    <Content Include="AdminPage\Page2.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
+    <Content Include="OnLineUsers.aspx" />
+    <Content Include="StyleSheet1.css" />
+    <Content Include="ThrowError.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -79,6 +83,13 @@
     </Compile>
     <Compile Include="AdminPage\default.aspx.designer.cs">
       <DependentUpon>default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="AdminPage\Page2.aspx.cs">
+      <DependentUpon>Page2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AdminPage\Page2.aspx.designer.cs">
+      <DependentUpon>Page2.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -90,7 +101,21 @@
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
     </Compile>
+    <Compile Include="OnLineUsers.aspx.cs">
+      <DependentUpon>OnLineUsers.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="OnLineUsers.aspx.designer.cs">
+      <DependentUpon>OnLineUsers.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ThrowError.aspx.cs">
+      <DependentUpon>ThrowError.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ThrowError.aspx.designer.cs">
+      <DependentUpon>ThrowError.aspx</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
